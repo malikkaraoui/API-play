@@ -9,7 +9,9 @@
     "dev": "concurrently \"npm run server\" \"npm run client\"",
     "server": "nodemon server.js",
     "client": "cd Api-play && npm run dev",
-    "build": "cd Api-play && npm run build"
+    "build": "cd Api-play && npm run build",
+    "test": "node test.js",
+    "test-api": "npm run test"
   },
   "dependencies": {
     "@tailwindcss/vite": "^4.1.16",
