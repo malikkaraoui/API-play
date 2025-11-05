@@ -1,138 +1,163 @@
-# API Proxy Server
+# 🚀 PumpFun Trading Dashboard
 
-Un serveur proxy Express.js pour contourner les restrictions CORS et SSL lors des appels d'API externes.
+Un dashboard de trading pour les tokens PumpFun avec interface moderne et proxy API sécurisé.
 
-## 🚀 Fonctionnalités
+## � Aperçu
 
-- **Serveur Proxy Express** : Contourne les restrictions CORS et SSL
-- **Interface Frontend Vite** : Interface de test pour les APIs
-- **Hot Reload** : Développement avec rechargement automatique
-- **Endpoint Santé** : Monitoring du statut du serveur
+Ce projet comprend :
+- **Serveur Express** : Proxy API avec endpoints de trading sécurisés
+- **Dashboard Web** : Interface de trading moderne avec Vite et TailwindCSS
+- **API de trading** : Endpoints pour achat, vente et consultation de portefeuille
+- **Mode démonstration** : Simulations de transactions pour le développement
 
-## 📦 Installation
+## 🛠️ Technologies
+
+- **Backend** : Node.js, Express.js, node-fetch
+- **Frontend** : Vite, Vanilla JavaScript, TailwindCSS
+- **API** : PumpFun Bonding Curve API (avec proxy CORS)
+- **Dev Tools** : Nodemon, Concurrently
+
+## � Installation
 
 ```bash
-# Installer les dépendances
+# Cloner le repository
+git clone [URL_DU_REPO]
+cd API-play
+
+# Installer les dépendances du serveur
 npm install
 
 # Installer les dépendances du frontend
-cd Api-play && npm install
+cd Api-play
+npm install
+cd ..
 ```
 
-## 🛠️ Utilisation
+## ⚡ Utilisation
 
-### Démarrer le serveur proxy uniquement
+### Démarrer le serveur uniquement
 ```bash
 npm start
 ```
 Le serveur sera disponible sur `http://localhost:3000`
 
-### Développement (serveur + frontend)
+### Démarrer en mode développement (serveur + frontend)
 ```bash
 npm run dev
 ```
-- Serveur proxy : `http://localhost:3000`
-- Frontend Vite : `http://localhost:5173`
+- Serveur API : `http://localhost:3000`
+- Dashboard Web : `http://localhost:5173`
 
-### Serveur seul avec hot reload
+### Tester l'API
 ```bash
-npm run server
+npm test
 ```
 
-### Frontend seul
-```bash
-npm run client
+## 📡 Endpoints API
+
+| Méthode | Endpoint | Description |
+|---------|----------|-------------|
+| `GET` | `/pumpfun/:mint` | Récupérer données d'un token |
+| `POST` | `/pumpfun/buy` | Acheter des tokens |
+| `POST` | `/pumpfun/sell` | Vendre des tokens |
+| `GET` | `/pumpfun/wallet/:address` | Consulter un portefeuille |
+| `GET` | `/health` | Status du serveur |
+
+## 🎯 Fonctionnalités
+
+### 🛒 Trading Interface
+- Achat de tokens avec montant en SOL
+- Vente de tokens par pourcentage
+- Configuration du slippage et frais de priorité
+- Validation des paramètres en temps réel
+
+### 👛 Gestion de Portefeuille
+- Consultation des balances SOL et tokens
+- Affichage des valeurs en USD
+- Liste détaillée des tokens possédés
+
+### 📊 Monitoring
+- Status du serveur en temps réel
+- Résultats des transactions détaillés
+- Gestion d'erreurs complète
+
+## 🔧 Structure du Projet
+
 ```
-
-## 📡 Endpoints Disponibles
-
-### `GET /`
-Point d'entrée principal avec informations sur le serveur
-
-### `GET /health`
-Endpoint de santé pour vérifier le statut du serveur
-
-### `POST /pumpfun`
-Proxy vers l'API PumpFun
-- **URL cible** : `https://api.pumpfunapis.com/coin-data/get-bonding`
-- **Méthode** : POST
-- **Headers** : Content-Type: application/json
-
-#### Exemple d'utilisation
-```javascript
-const response = await fetch('http://localhost:3000/pumpfun', {
-  method: 'POST',
-  headers: {
-    'Content-Type': 'application/json',
-  },
-  body: JSON.stringify({
-    // Vos paramètres ici
-    token: 'example-token',
-    action: 'get-bonding'
-  })
-});
-
-const data = await response.json();
-console.log(data);
-```
-
-## 🔧 Configuration
-
-### Variables d'environnement
-- `PORT` : Port du serveur (défaut: 3000)
-
-### Ajouter de nouveaux endpoints
-Modifiez `server.js` pour ajouter de nouveaux proxies :
-
-```javascript
-app.post("/nouvelle-api", async (req, res) => {
-  try {
-    const response = await fetch("https://api.exemple.com/endpoint", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(req.body)
-    });
-    const data = await response.json();
-    res.json(data);
-  } catch (error) {
-    res.status(500).json({ error: error.message });
-  }
-});
+API-play/
+├── server.js              # Serveur Express principal
+├── test.js                # Tests de l'API
+├── package.json           # Configuration serveur
+├── Api-play/              # Frontend Vite
+│   ├── src/
+│   │   ├── main.js        # Application principale
+│   │   ├── style.css      # Styles TailwindCSS
+│   │   └── counter.js     # Composant compteur
+│   ├── index.html         # Template HTML
+│   └── package.json       # Configuration frontend
+└── README.md              # Documentation
 ```
 
 ## 🛡️ Sécurité
 
-Le serveur proxy :
-- Utilise CORS pour autoriser les requêtes cross-origin
-- Ajoute des headers User-Agent pour éviter les blocages
-- Gère les erreurs HTTP avec des messages appropriés
-- Log les requêtes pour le débogage
+⚠️ **Mode Développement** : Ce projet utilise :
+- `NODE_TLS_REJECT_UNAUTHORIZED=0` pour contourner SSL
+- Données simulées pour les transactions
+- Clés privées de démonstration
 
-## 📁 Structure du Projet
+🔒 **Pour la production** :
+- Supprimer le contournement SSL
+- Implémenter une vraie gestion des clés privées
+- Ajouter l'authentification utilisateur
+- Utiliser HTTPS
 
+## � Exemples d'API
+
+### Achat de tokens
+```bash
+curl -X POST http://localhost:3000/pumpfun/buy \
+  -H "Content-Type: application/json" \
+  -d '{
+    "private_key": "demo_key",
+    "mint": "2ZnL2kwYxu2HJGuusJ9wkauNL2zkvndsisjVaVyppump",
+    "sol_in": 0.1,
+    "slippage": 5
+  }'
 ```
-API-play/
-├── server.js              # Serveur Express proxy
-├── package.json           # Dépendances du serveur
-├── Api-play/              # Frontend Vite
-│   ├── src/
-│   │   ├── main.js        # Interface de test
-│   │   └── style.css      # Styles
-│   ├── package.json       # Dépendances frontend
-│   └── vite.config.js     # Configuration Vite
-└── README.md              # Documentation
+
+### Consultation de portefeuille
+```bash
+curl http://localhost:3000/pumpfun/wallet/demo_address
 ```
 
-## 🚨 Résolution des Problèmes
+## 🎨 Interface
 
-### Le serveur ne démarre pas
-- Vérifiez que le port 3000 n'est pas déjà utilisé
-- Installez les dépendances avec `npm install`
+Le dashboard offre :
+- **Design moderne** avec dégradés et animations
+- **Interface responsive** pour mobile et desktop
+- **Thème sombre** optimisé pour le trading
+- **Feedback visuel** pour toutes les actions
 
-### Erreurs CORS
-- Le serveur proxy est configuré avec CORS activé
-- Assurez-vous que le serveur proxy est démarré
+## 📊 Scripts Disponibles
 
-### Erreurs SSL/TLS
-- Le proxy gère automatiquement les certificats SSL
-- Les requêtes passent par le serveur Node.js qui accepte les certificats
+- `npm start` - Démarrer le serveur
+- `npm run dev` - Mode développement complet
+- `npm run server` - Serveur avec auto-reload
+- `npm run client` - Frontend uniquement
+- `npm test` - Tests de l'API
+
+## 🤝 Contribution
+
+1. Fork le projet
+2. Créer une branche (`git checkout -b feature/AmazingFeature`)
+3. Commit les changements (`git commit -m 'Add AmazingFeature'`)
+4. Push vers la branche (`git push origin feature/AmazingFeature`)
+5. Ouvrir une Pull Request
+
+## 📄 Licence
+
+Ce projet est sous licence MIT. Voir le fichier `LICENSE` pour plus de détails.
+
+## ⚠️ Disclaimer
+
+Ce projet est à des fins éducatives et de démonstration. Les transactions sont simulées. Utilisez à vos propres risques pour du trading réel.

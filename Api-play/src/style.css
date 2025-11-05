@@ -351,3 +351,233 @@ button:focus-visible {
     border-color: #ddd;
   }
 }
+
+/* Trading Interface Styles */
+.trading-section, .wallet-section {
+  margin: 30px 0;
+  padding: 25px;
+  background: linear-gradient(135deg, #1e293b, #334155);
+  border-radius: 12px;
+  border: 1px solid #475569;
+  text-align: left;
+}
+
+.trading-section h3, .wallet-section h3 {
+  margin: 0 0 20px 0;
+  color: #f1f5f9;
+  font-size: 1.4em;
+  text-align: center;
+}
+
+.form-group {
+  margin-bottom: 20px;
+}
+
+.form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 8px;
+  color: #cbd5e1;
+  font-weight: 500;
+}
+
+.form-group input {
+  width: 100%;
+  padding: 12px 16px;
+  border: 2px solid #475569;
+  border-radius: 8px;
+  background: #1e293b;
+  color: #f1f5f9;
+  font-size: 14px;
+  transition: all 0.3s ease;
+  box-sizing: border-box;
+}
+
+.form-group input:focus {
+  outline: none;
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+.form-group input::placeholder {
+  color: #64748b;
+}
+
+.buy-button, .sell-button, .wallet-button {
+  padding: 12px 24px;
+  border: none;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 16px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  margin: 0 10px;
+}
+
+.buy-button {
+  background: linear-gradient(135deg, #22c55e, #16a34a);
+  color: white;
+}
+
+.buy-button:hover {
+  background: linear-gradient(135deg, #16a34a, #15803d);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(34, 197, 94, 0.3);
+}
+
+.sell-button {
+  background: linear-gradient(135deg, #ef4444, #dc2626);
+  color: white;
+}
+
+.sell-button:hover {
+  background: linear-gradient(135deg, #dc2626, #b91c1c);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(239, 68, 68, 0.3);
+}
+
+.wallet-button {
+  background: linear-gradient(135deg, #8b5cf6, #7c3aed);
+  color: white;
+  width: 100%;
+}
+
+.wallet-button:hover {
+  background: linear-gradient(135deg, #7c3aed, #6d28d9);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(139, 92, 246, 0.3);
+}
+
+/* Enhanced Transaction Results */
+.success-transaction {
+  background: linear-gradient(135deg, #065f46, #047857);
+  border: 1px solid #10b981;
+  border-radius: 8px;
+  padding: 20px;
+  margin: 15px 0;
+}
+
+.error-transaction {
+  background: linear-gradient(135deg, #7f1d1d, #991b1b);
+  border: 1px solid #ef4444;
+  border-radius: 8px;
+  padding: 20px;
+  margin: 15px 0;
+}
+
+.transaction-details {
+  margin-top: 15px;
+  padding: 15px;
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 6px;
+}
+
+.transaction-details p {
+  margin: 8px 0;
+  font-size: 14px;
+}
+
+.transaction-details a {
+  color: #60a5fa;
+  text-decoration: underline;
+}
+
+.transaction-details a:hover {
+  color: #93c5fd;
+}
+
+/* Enhanced Wallet Info */
+.wallet-info {
+  background: linear-gradient(135deg, #1e293b, #334155);
+  border: 1px solid #475569;
+  border-radius: 8px;
+  padding: 20px;
+  margin: 15px 0;
+}
+
+.wallet-summary {
+  background: rgba(0, 0, 0, 0.2);
+  padding: 15px;
+  border-radius: 6px;
+  margin-bottom: 20px;
+}
+
+.wallet-summary p {
+  margin: 8px 0;
+  font-size: 14px;
+}
+
+.token-list {
+  max-height: 300px;
+  overflow-y: auto;
+}
+
+.token-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px;
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 6px;
+  margin: 8px 0;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.token-info {
+  flex: 1;
+}
+
+.token-balance {
+  color: #94a3b8;
+  font-size: 12px;
+}
+
+.token-value {
+  text-align: right;
+}
+
+.sol-value {
+  display: block;
+  color: #22c55e;
+  font-weight: 600;
+}
+
+.usd-value {
+  display: block;
+  color: #94a3b8;
+  font-size: 12px;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .form-row {
+    grid-template-columns: 1fr;
+    gap: 15px;
+  }
+  
+  .buy-button, .sell-button, .wallet-button {
+    width: 100%;
+    margin: 5px 0;
+  }
+  
+  .button-group {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  
+  .token-item {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+  }
+  
+  .token-value {
+    text-align: left;
+  }
+}

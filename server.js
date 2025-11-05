@@ -96,70 +96,144 @@ app.post("/pumpfun", async (req, res) => {
   }
 });
 
-// Route avec données simulées pour tester l'interface
-app.get("/pumpfun-demo", (req, res) => {
-  console.log("📊 Requête pour données de démonstration");
-  
-  // Données simulées basées sur la documentation
-  const demoData = {
-    success: true,
-    data: {
-      mint: "2ZnL2kwYxu2HJGuusJ9wkauNL2zkvndsisjVaVyppump",
-      bonding_curve: "CEn9MQ2k6viLe7nagYn7Yimbn3aDg2qbACHN64FgeAqu",
-      associated_bonding_curve: "84nW9335QSyDJBmAPLac3CXguz4TFVtSCvosRb6Tjsym",
-      virtual_token_reserves: 1072996765347341,
-      virtual_sol_reserves: 30000090445,
-      token_total_supply: 1000000000000000,
-      complete: false,
-      real_token_reserves: 927003234652659,
-      real_sol_reserves: 79999909555,
-      price_per_token: 0.0000000279,
-      market_cap: 27900000,
-      bonding_curve_progress: 79.99
+// Route pour acheter des tokens - POST /api/buy
+app.post("/pumpfun/buy", async (req, res) => {
+  try {
+    const { private_key, mint, sol_in, slippage, priorityFee } = req.body;
+    
+    console.log(`� Requête d'achat reçue pour le token: ${mint}`);
+    console.log(`💰 Montant SOL: ${sol_in}, Slippage: ${slippage}%`);
+    
+    // Validation des paramètres requis
+    if (!private_key || !mint || !sol_in || slippage === undefined) {
+      return res.status(400).json({ 
+        error: "Paramètres manquants", 
+        details: "private_key, mint, sol_in et slippage sont requis" 
+      });
     }
-  };
-  
-  res.json(demoData);
+    
+    // Pour la démonstration, nous simulons un achat réussi
+    // En production, ceci ferait un vrai appel à l'API Pump.fun
+    const demoResponse = {
+      status: "success",
+      message: "Buy transaction confirmed.",
+      tx_signature: `5wVaP${Math.random().toString(36).substr(2, 9)}riJa`,
+      solscan_url: `https://solscan.io/tx/5wVaP${Math.random().toString(36).substr(2, 9)}riJa`,
+      details: {
+        mint: mint,
+        sol_spent: sol_in,
+        slippage_used: slippage,
+        priority_fee: priorityFee || 0.0001,
+        estimated_tokens: Math.floor(Math.random() * 1000000) + 100000
+      }
+    };
+    
+    // Simuler un délai de transaction
+    await new Promise(resolve => setTimeout(resolve, 2000));
+    
+    console.log("✅ Transaction d'achat simulée avec succès");
+    res.json(demoResponse);
+  } catch (error) {
+    console.error("❌ Erreur lors de l'achat:", error.message);
+    res.status(500).json({ 
+      error: "Erreur lors de la transaction d'achat", 
+      details: error.message 
+    });
+  }
 });
 
-// Route pour obtenir plusieurs tokens (simulation)
-app.get("/pumpfun-list", (req, res) => {
-  console.log("📊 Requête pour liste de tokens de démonstration");
-  
-  const tokenList = [
-    {
-      mint: "2ZnL2kwYxu2HJGuusJ9wkauNL2zkvndsisjVaVyppump",
-      symbol: "PUMP",
-      name: "PumpFun Token",
-      virtual_sol_reserves: 30000090445,
-      price_per_token: 0.0000000279,
-      market_cap: 27900000,
-      complete: false,
-      bonding_curve_progress: 79.99
-    },
-    {
-      mint: "3NZ9JMVBmGAqocybic2c7LQCJScmgsAZ6vQqTDzcqmJh",
-      symbol: "DEMO",
-      name: "Demo Token",
-      virtual_sol_reserves: 25000000000,
-      price_per_token: 0.0000000156,
-      market_cap: 15600000,
-      complete: true,
-      bonding_curve_progress: 100
-    },
-    {
-      mint: "4Nc8V4K8tTYxwzLMpXK5Kq7FmNZj5tYcKDsGqv5pump",
-      symbol: "TEST",
-      name: "Test Coin",
-      virtual_sol_reserves: 15000000000,
-      price_per_token: 0.0000000089,
-      market_cap: 8900000,
-      complete: false,
-      bonding_curve_progress: 45.50
+// Route pour vendre des tokens - POST /api/sell
+app.post("/pumpfun/sell", async (req, res) => {
+  try {
+    const { private_key, mint, percentage, slippage, priorityFee } = req.body;
+    
+    console.log(`💸 Requête de vente reçue pour le token: ${mint}`);
+    console.log(`📊 Pourcentage: ${percentage}%, Slippage: ${slippage}%`);
+    
+    // Validation des paramètres requis
+    if (!private_key || !mint || !percentage || slippage === undefined) {
+      return res.status(400).json({ 
+        error: "Paramètres manquants", 
+        details: "private_key, mint, percentage et slippage sont requis" 
+      });
     }
-  ];
-  
-  res.json({ success: true, data: tokenList });
+    
+    // Pour la démonstration, nous simulons une vente réussie
+    const demoResponse = {
+      status: "success",
+      message: "Sell transaction confirmed.",
+      tx_signature: `8hTgM${Math.random().toString(36).substr(2, 9)}ke7X`,
+      solscan_url: `https://solscan.io/tx/8hTgM${Math.random().toString(36).substr(2, 9)}ke7X`,
+      details: {
+        mint: mint,
+        percentage_sold: percentage,
+        slippage_used: slippage,
+        priority_fee: priorityFee || 0.0001,
+        estimated_sol_received: (Math.random() * 10).toFixed(4)
+      }
+    };
+    
+    // Simuler un délai de transaction
+    await new Promise(resolve => setTimeout(resolve, 1500));
+    
+    console.log("✅ Transaction de vente simulée avec succès");
+    res.json(demoResponse);
+  } catch (error) {
+    console.error("❌ Erreur lors de la vente:", error.message);
+    res.status(500).json({ 
+      error: "Erreur lors de la transaction de vente", 
+      details: error.message 
+    });
+  }
+});
+
+// Route pour simuler un portefeuille de tokens
+app.get("/pumpfun/wallet/:address", async (req, res) => {
+  try {
+    const { address } = req.params;
+    console.log(`� Requête de portefeuille pour: ${address}`);
+    
+    // Simulation d'un portefeuille avec différents tokens
+    const walletData = {
+      success: true,
+      wallet_address: address,
+      sol_balance: (Math.random() * 100 + 10).toFixed(4),
+      tokens: [
+        {
+          mint: "2ZnL2kwYxu2HJGuusJ9wkauNL2zkvndsisjVaVyppump",
+          symbol: "PUMP",
+          name: "PumpFun Token",
+          balance: Math.floor(Math.random() * 10000000) + 50000,
+          value_sol: (Math.random() * 5 + 0.1).toFixed(4),
+          value_usd: (Math.random() * 500 + 10).toFixed(2)
+        },
+        {
+          mint: "3NZ9JMVBmGAqocybic2c7LQCJScmgsAZ6vQqTDzcqmJh",
+          symbol: "DEMO",
+          name: "Demo Token", 
+          balance: Math.floor(Math.random() * 5000000) + 25000,
+          value_sol: (Math.random() * 3 + 0.05).toFixed(4),
+          value_usd: (Math.random() * 300 + 5).toFixed(2)
+        }
+      ],
+      total_value_sol: 0,
+      total_value_usd: 0
+    };
+    
+    // Calculer les totaux
+    walletData.total_value_sol = walletData.tokens.reduce((sum, token) => 
+      sum + parseFloat(token.value_sol), 0).toFixed(4);
+    walletData.total_value_usd = walletData.tokens.reduce((sum, token) => 
+      sum + parseFloat(token.value_usd), 0).toFixed(2);
+    
+    res.json(walletData);
+  } catch (error) {
+    console.error("❌ Erreur lors de la récupération du portefeuille:", error.message);
+    res.status(500).json({ 
+      error: "Erreur lors de la récupération du portefeuille", 
+      details: error.message 
+    });
+  }
 });
 app.get("/", (req, res) => {
   res.json({ 
