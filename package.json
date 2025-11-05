@@ -1,6 +1,25 @@
 {
+  "name": "api-play",
+  "version": "1.0.0",
+  "type": "module",
+  "description": "Serveur proxy pour APIs avec Vite frontend",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "concurrently \"npm run server\" \"npm run client\"",
+    "server": "nodemon server.js",
+    "client": "cd Api-play && npm run dev",
+    "build": "cd Api-play && npm run build"
+  },
   "dependencies": {
     "@tailwindcss/vite": "^4.1.16",
+    "cors": "^2.8.5",
+    "express": "^5.1.0",
+    "node-fetch": "^3.3.2",
     "tailwindcss": "^4.1.16"
+  },
+  "devDependencies": {
+    "concurrently": "^8.2.2",
+    "nodemon": "^3.1.10"
   }
 }
